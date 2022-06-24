@@ -5,6 +5,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   Dimensions,
+  View,
+  SafeAreaView,
 } from "react-native";
 import Toast, { ToastOptions, ToastProps } from "./toast";
 
@@ -143,8 +145,8 @@ class ToastContainer extends Component<Props, State> {
       flexDirection: "column-reverse",
     };
     return (
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "position" : undefined}
+      <View
+        // behavior={Platform.OS === "ios" ? "position" : undefined}
         style={[styles.container, style]}
         pointerEvents="box-none"
       >
@@ -153,7 +155,7 @@ class ToastContainer extends Component<Props, State> {
           .map((toast) => (
             <Toast key={toast.id} {...toast} />
           ))}
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 

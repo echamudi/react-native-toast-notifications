@@ -309,37 +309,39 @@ const Toast: FC<ToastProps> = (props) => {
   }
 
   return (
-    <Animated.View
-      ref={containerRef}
-      {...(swipeEnabled ? getPanResponder().panHandlers : null)}
-      style={[styles.container, animationStyle]}
-    >
-      {props.renderType && props.renderType[type] ? (
-        props.renderType[type](props)
-      ) : props.renderToast ? (
-        props.renderToast(props)
-      ) : (
-        <TouchableWithoutFeedback
-          disabled={!onPress}
-          onPress={() => onPress && onPress(id)}
-        >
-          <View
-            style={[
-              styles.toastContainer,
-              { maxWidth: (dims.width / 10) * 9, backgroundColor },
-              style,
-            ]}
+    <View ref={containerRef} style={styles.container} pointerEvents="box-none">
+      <Animated.View
+        {...(swipeEnabled ? getPanResponder().panHandlers : null)}
+        style={[animationStyle]}
+        pointerEvents={swipeEnabled ? undefined : "none"}
+      >
+        {props.renderType && props.renderType[type] ? (
+          props.renderType[type](props)
+        ) : props.renderToast ? (
+          props.renderToast(props)
+        ) : (
+          <TouchableWithoutFeedback
+            disabled={!onPress}
+            onPress={() => onPress && onPress(id)}
           >
-            {icon ? <View style={styles.iconContainer}>{icon}</View> : null}
-            {React.isValidElement(message) ? (
-              message
-            ) : (
-              <Text style={[styles.message, textStyle]}>{message}</Text>
-            )}
-          </View>
-        </TouchableWithoutFeedback>
-      )}
-    </Animated.View>
+            <View
+              style={[
+                styles.toastContainer,
+                { maxWidth: (dims.width / 10) * 9, backgroundColor },
+                style,
+              ]}
+            >
+              {icon ? <View style={styles.iconContainer}>{icon}</View> : null}
+              {React.isValidElement(message) ? (
+                message
+              ) : (
+                <Text style={[styles.message, textStyle]}>{message}</Text>
+              )}
+            </View>
+          </TouchableWithoutFeedback>
+        )}
+      </Animated.View>
+    </View>
   );
 };
 
